@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Username atau Password kaga boleh kosong bro!'),
+          content: Text('Username atau password tidak boleh kosong'),
           backgroundColor: Colors.red,
         ),
       );
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Login berhasil! Asikin aje.'),
+          content: Text('Login berhasil!'),
           backgroundColor: Colors.green,
         ),
       );
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Login gagal! Cek lagi dah tuh.'),
+          content: Text('Login gagal!'),
           backgroundColor: Colors.red,
         ),
       );
