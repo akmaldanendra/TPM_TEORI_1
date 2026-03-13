@@ -122,7 +122,7 @@ class HomePage extends StatelessWidget {
                 _buildMenuCard(context, 'Menu 2', 'Kalkukator Tambah Kurang', () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TambahKurangPage()));
                 }),
-                _buildMenuCard(context, 'Menu 3', 'Luas & VolumePiramid', () {
+                _buildMenuCard(context, 'Menu 3', 'Luas & Volume Piramid', () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => PiramidPage()));
                 }),
                 _buildMenuCard(context, 'Menu 4', 'Total Angka', () {
