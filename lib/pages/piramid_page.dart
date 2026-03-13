@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class PiramidPage extends StatefulWidget {
+  const PiramidPage({super.key});
+
   @override
   _PiramidPageState createState() => _PiramidPageState();
 }
@@ -17,7 +19,7 @@ class _PiramidPageState extends State<PiramidPage> {
     if (_sisiController.text.isEmpty || _tinggiController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Isi dlu panjang sisi sama tingginye bos!'), 
+          content: Text('Isi dulu panjang sisi sama tingginya ya!'), 
           backgroundColor: Colors.red
         ),
       );
@@ -45,80 +47,149 @@ class _PiramidPageState extends State<PiramidPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Luas & Volume Piramid')),
+      backgroundColor: const Color(0xFFF8FAFC), // Warna background senada
+      appBar: AppBar(
+        title: const Text('Luas & Volume Piramid', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF2563EB), // Warna biru utama
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            // Box Hasil
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Colors.blueGrey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.blueGrey, width: 2),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+          decoration: BoxDecoration(
+            color: Colors.white, // Dibungkus kotak putih
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF1E293B).withOpacity(0.06),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              )
+            ]
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // --- BOX HASIL ---
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9), // Warna abu-abu yang lebih lembut
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0)), // Border lebih tipis
+                ),
+                child: Column(
+                  children: [
+                    Text('Hasil Perhitungan (Alas Persegi)', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey[600])),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            const Text('Luas Permukaan', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(
+                              _hasilLuas,
+                              style: const TextStyle(
+                                fontSize: 20, 
+                                fontWeight: FontWeight.bold, 
+                                color: Color(0xFF2563EB), // Biru utama
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(height: 40, width: 1, color: Colors.grey.shade300), // Garis pemisah vertikal
+                        Column(
+                          children: [
+                            const Text('Volume', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(
+                              _hasilVolume,
+                              style: const TextStyle(
+                                fontSize: 20, 
+                                fontWeight: FontWeight.bold, 
+                                color: Color(0xFF2563EB), // Biru utama
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  Text('Hasil Perhitungan (Alas Persegi):', style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Luas Permukaan', style: TextStyle(color: Colors.grey)),
-                          Text(
-                            _hasilLuas,
-                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueGrey),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('Volume', style: TextStyle(color: Colors.grey)),
-                          Text(
-                            _hasilVolume,
-                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
-                          ),
-                        ],
-                      ),
-                    ],
+              const SizedBox(height: 40),
+              
+              // --- FORM INPUT SISI ---
+              TextField(
+                controller: _sisiController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Panjang Sisi Alas',
+                  labelStyle: TextStyle(color: Colors.grey[600]),
+                  prefixIcon: const Icon(Icons.square_foot, color: Color(0xFF2563EB)),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
                   ),
-                ],
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 40),
-            TextField(
-              controller: _sisiController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Panjang Sisi Alas',
-                prefixIcon: Icon(Icons.square_foot),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              const SizedBox(height: 16),
+              
+              // --- FORM INPUT TINGGI ---
+              TextField(
+                controller: _tinggiController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Tinggi Piramid',
+                  labelStyle: TextStyle(color: Colors.grey[600]),
+                  prefixIcon: const Icon(Icons.height, color: Color(0xFF2563EB)),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _tinggiController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Tinggi Piramid',
-                prefixIcon: Icon(Icons.height),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              const SizedBox(height: 32),
+              
+              // --- TOMBOL HITUNG ---
+              ElevatedButton(
+                onPressed: _hitungPiramid,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF2563EB), // Warna biru utama
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 2,
+                ),
+                child: const Text('Hitung Sekarang', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _hitungPiramid,
-              child: Text('Hitung Sekarang', style: TextStyle(fontSize: 16)),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

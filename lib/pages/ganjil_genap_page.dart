@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class GanjilGenapPage extends StatefulWidget {
+  const GanjilGenapPage({super.key});
+
   @override
   _GanjilGenapPageState createState() => _GanjilGenapPageState();
 }
@@ -15,7 +17,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
     if (_angkaController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Isi dlu angkanye bos, kosong blong gitu!'),
+          content: Text('Isi dulu angkanya, tidak boleh kosong!'),
           backgroundColor: Colors.red,
         ),
       );
@@ -26,7 +28,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
     if (angka == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Masukin angka bulat aje, kaga usah pake koma atau huruf!'),
+          content: Text('Masukkan angka bulat saja!'),
           backgroundColor: Colors.red,
         ),
       );
@@ -67,78 +69,123 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cek Ganjil Genap & Prima')),
+      backgroundColor: const Color(0xFFF8FAFC), // Warna background senada
+      appBar: AppBar(
+        title: const Text('Ganjil Genap & Prima', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF2563EB), // Warna biru utama
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            // Box Hasilnye nih
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Colors.blueGrey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.blueGrey, width: 2),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+          decoration: BoxDecoration(
+            color: Colors.white, // Dibungkus kotak putih
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF1E293B).withOpacity(0.06),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              )
+            ]
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // --- BOX HASIL ---
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9), // Warna abu-abu yang lebih lembut dari sebelumnya
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0)), // Border lebih tipis dan terang
+                ),
+                child: Column(
+                  children: [
+                    Text('Hasil Analisis Angka', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey[600])),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            const Text('Tipe', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(
+                              _hasilGanjilGenap,
+                              style: TextStyle(
+                                fontSize: 20, 
+                                fontWeight: FontWeight.bold, 
+                                color: _hasilGanjilGenap == "GENAP" ? const Color(0xFF2563EB) : Colors.orange.shade700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(height: 40, width: 1, color: Colors.grey.shade300), // Garis pemisah kecil di tengah
+                        Column(
+                          children: [
+                            const Text('Status', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(
+                              _hasilPrima,
+                              style: TextStyle(
+                                fontSize: 20, 
+                                fontWeight: FontWeight.bold, 
+                                color: _hasilPrima == "PRIMA" ? Colors.green.shade600 : Colors.red.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  Text('Hasil Analisis Angka:', style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Tipe', style: TextStyle(color: Colors.grey)),
-                          Text(
-                            _hasilGanjilGenap,
-                            style: TextStyle(
-                              fontSize: 24, 
-                              fontWeight: FontWeight.bold, 
-                              color: _hasilGanjilGenap == "GENAP" ? Colors.blue : Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('Status', style: TextStyle(color: Colors.grey)),
-                          Text(
-                            _hasilPrima,
-                            style: TextStyle(
-                              fontSize: 24, 
-                              fontWeight: FontWeight.bold, 
-                              color: _hasilPrima == "PRIMA" ? Colors.green : Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+              const SizedBox(height: 40),
+              
+              // --- FORM INPUT ANGKA ---
+              TextField(
+                controller: _angkaController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Masukkan Angka Bulat',
+                  labelStyle: TextStyle(color: Colors.grey[600]),
+                  prefixIcon: const Icon(Icons.numbers, color: Color(0xFF2563EB)),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
                   ),
-                ],
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 40),
-            TextField(
-              controller: _angkaController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Masukin Angka Bulat',
-                prefixIcon: Icon(Icons.numbers),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              const SizedBox(height: 32),
+              
+              // --- TOMBOL CEK ---
+              ElevatedButton(
+                onPressed: _cekAngka,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF2563EB), // Warna biru utama
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 2,
+                ),
+                child: const Text('Cek Sekarang', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _cekAngka,
-              child: Text('Cek Sekarang', style: TextStyle(fontSize: 16)),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
