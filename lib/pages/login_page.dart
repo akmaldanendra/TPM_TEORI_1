@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Username atau password tidak boleh kosong'),
+          content: Text('Username atau password tidak boleh kosong y'),
           backgroundColor: Colors.red,
         ),
       );
